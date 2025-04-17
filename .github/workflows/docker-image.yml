@@ -1,0 +1,29 @@
+name: Build & Push Docker Image to GHCR
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to GHCR
+      run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Build and push AuthenticationAPI
+      run: |
+        docker build -t ghcr.io/${{ github.repository_owner }}/authenticationapi:latest ./AuthenticationAPI/src/AuthenticationAPI
+        docker push ghcr.io/${{ github.repository_owner }}/authenticationapi:latest
+
+    - name: Build and push CustomerAPI
+      run: |
+        docker build -t ghcr.io/${{ github.repository_owner }}/customerapi:latest ./CustomerAPI/src/CustomerAPI
+        docker push ghcr.io/${{ github.repository_owner }}/customerapi:latest
