@@ -24,6 +24,8 @@ namespace AuthenticationAPI.Services
         {
             try
             {
+                // test build app
+
                 RequestGeneralInfoModel request = new RequestGeneralInfoModel
                 {
                     deviceInfo = deviceInfo,
