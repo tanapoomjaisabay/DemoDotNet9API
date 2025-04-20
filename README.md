@@ -25,7 +25,7 @@ To demonstrate clean and practical backend development practices, including:
 - ASP.NET Core 9
 - Entity Framework Core
 - xUnit
-- Moq
+- Stub
 - MSSQL Server
 - Docker
 - GitHub Actions (CI)
