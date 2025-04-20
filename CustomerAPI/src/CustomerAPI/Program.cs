@@ -7,12 +7,30 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+    configuration.MinimumLevel.Information();
+    configuration.MinimumLevel.Override("Microsoft", LogEventLevel.Warning);
+    configuration.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning);
+    configuration.Enrich.FromLogContext();
+    configuration.Enrich.WithCorrelationIdHeader("mb-correlation-id");
+
+
+}).ConfigureLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.SetMinimumLevel(LogLevel.Information);
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -93,6 +111,7 @@ builder.Services.AddScoped<IGeneralInfoService, GeneralInfoService>();
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
 if (!app.Environment.IsProduction())
 {
     app.UseSwagger();

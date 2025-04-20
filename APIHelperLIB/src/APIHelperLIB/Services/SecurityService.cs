@@ -58,5 +58,10 @@ namespace APIHelperLIB.Services
                 }
             }
         }
+
+        public static string testx()
+        {
+            return "";
+        }
     }
 }
