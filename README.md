@@ -14,7 +14,7 @@ To demonstrate clean and practical backend development practices, including:
 - Docker containerization and GitHub Actions for building images.
 - Logging system integration using **Serilog**.
 
-## 📤 Features
+## 📌 Features
 
 - **Authentication API**: 
   - Verifies username and password.
